@@ -39,7 +39,6 @@ input
 
 output
 
-
 ````json
 {
   "title": "my config",
@@ -102,6 +101,7 @@ to
 ````
 
 ### 3
+
 jis, ansi キーボードの設定
 
 input
