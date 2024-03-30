@@ -39,7 +39,7 @@ input
 
 output
 
-````json
+```json
 {
   "title": "my config",
   "maintainers": ["foo"],
@@ -62,11 +62,13 @@ output
 ```
 
 ### 2
-- conditionsがある
+
+- conditions がある
 
 from
 
 ```yaml
+
 ```
 
 to
@@ -104,7 +106,7 @@ to
     }
   ]
 }
-````
+```
 
 ### 3
 
@@ -136,7 +138,7 @@ input
 
 output
 
-```
+```json
 {
   "title": "my config",
   "maintainers": ["foo"],
