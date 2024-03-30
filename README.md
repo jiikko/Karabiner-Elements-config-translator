@@ -1,4 +1,4 @@
-# Karabiner-Elements-config-translator
+# Karabiner-Elements-config-yaml
 
 https://github.com/pqrs-org/Karabiner-Elements のための設定ファイルを簡単に書くためのツールです。
 
