@@ -14,7 +14,7 @@ https://github.com/pqrs-org/Karabiner-Elements のための設定ファイルを
 ## 使い方
 
 ```sh
-command <input-file> --complex_modifications | ~/.config/karabiner/assets/complex_modifications/1234.json
+command <input-file> | ~/.config/karabiner/assets/complex_modifications/1234.json
 ```
 
 ## 例
@@ -73,31 +73,37 @@ to
 
 ```json
 {
-  "description": "command + l to ctrl + l for Terminal(ターミナルでの画面クリア対策)",
-  "manipulators": [
+  "title": "my config",
+  "maintainers": ["foo"],
+  "rules": [
     {
-      "from": {
-        "key_code": "l",
-        "modifiers": {
-          "mandatory": ["command"]
-        }
-      },
-      "to": [
+      "description": "command + l to ctrl + l for Terminal(ターミナルでの画面クリア対策)",
+      "manipulators": [
         {
-          "key_code": "l",
-          "modifiers": ["right_control"]
-        }
-      ],
-      "type": "basic",
-      "conditions": [
-        {
-          "type": "frontmost_application_if",
-          "bundle_identifiers": ["^com\\.apple\\.Terminal"]
+          "from": {
+            "key_code": "l",
+            "modifiers": {
+              "mandatory": ["command"]
+            }
+          },
+          "to": [
+            {
+              "key_code": "l",
+              "modifiers": ["right_control"]
+            }
+          ],
+          "type": "basic",
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": ["^com\\.apple\\.Terminal"]
+            }
+          ]
         }
       ]
     }
   ]
-},
+}
 ````
 
 ### 3
@@ -131,51 +137,59 @@ input
 output
 
 ```
-"description": "右Ctrl+1を押すと:bow:を入力する",
-"manipulators": [
-  {
-    "conditions": [
-      { "type": "keyboard_type_if", "keyboard_types": ["ansi"] }
-    ],
-    "from": {
-      "key_code": "1",
-      "modifiers": {
-        "mandatory": ["right_control"],
-        "optional": ["any"]
-      }
-    },
-    "to": [
-      { "key_code": "japanese_eisuu" },
-      { "key_code": "spacebar" },
-      { "key_code": "semicolon", "modifiers": ["left_shift"] },
-      { "key_code": "b" },
-      { "key_code": "o" },
-      { "key_code": "w" },
-      { "key_code": "semicolon", "modifiers": ["left_shift"] }
-    ],
-    "type": "basic"
-  },
-  {
-    "conditions": [
-      { "type": "keyboard_type_if", "keyboard_types": ["jis"] }
-    ],
-    "from": {
-      "key_code": "1",
-      "modifiers": {
-        "mandatory": ["right_control"],
-        "optional": ["any"]
-      }
-    },
-    "to": [
-      { "key_code": "japanese_eisuu" },
-      { "key_code": "spacebar" },
-      { "key_code": "quote" },
-      { "key_code": "b" },
-      { "key_code": "o" },
-      { "key_code": "w" },
-      { "key_code": "quote" }
-    ],
-    "type": "basic"
-  }
-]
+{
+  "title": "my config",
+  "maintainers": ["foo"],
+  "rules": [
+    {
+      "description": "右Ctrl+1を押すと:bow:を入力する",
+      "manipulators": [
+        {
+          "conditions": [
+            { "type": "keyboard_type_if", "keyboard_types": ["ansi"] }
+          ],
+          "from": {
+            "key_code": "1",
+            "modifiers": {
+              "mandatory": ["right_control"],
+              "optional": ["any"]
+            }
+          },
+          "to": [
+            { "key_code": "japanese_eisuu" },
+            { "key_code": "spacebar" },
+            { "key_code": "semicolon", "modifiers": ["left_shift"] },
+            { "key_code": "b" },
+            { "key_code": "o" },
+            { "key_code": "w" },
+            { "key_code": "semicolon", "modifiers": ["left_shift"] }
+          ],
+          "type": "basic"
+        },
+        {
+          "conditions": [
+            { "type": "keyboard_type_if", "keyboard_types": ["jis"] }
+          ],
+          "from": {
+            "key_code": "1",
+            "modifiers": {
+              "mandatory": ["right_control"],
+              "optional": ["any"]
+            }
+          },
+          "to": [
+            { "key_code": "japanese_eisuu" },
+            { "key_code": "spacebar" },
+            { "key_code": "quote" },
+            { "key_code": "b" },
+            { "key_code": "o" },
+            { "key_code": "w" },
+            { "key_code": "quote" }
+          ],
+          "type": "basic"
+        }
+      ]
+    }
+  ]
+}
 ```
