@@ -20,5 +20,11 @@ func main() {
 		return
 	}
 
-	fmt.Println(parser.ToJSON())
+	json, err := parser.ToJSON()
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	fmt.Println(json)
 }

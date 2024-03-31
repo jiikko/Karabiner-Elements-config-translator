@@ -26,7 +26,10 @@ func NewParser(filepath string) (*Parser, error) {
 	return parser, nil
 }
 
-func (p *Parser) ToJSON() string {
-	// return p.config.ToJSON(p.content)
-	return ""
+func (p *Parser) ToJSON() (string, error) {
+	json, err := p.config.ToJSON(p.content)
+	if err != nil {
+		return "", err
+	}
+	return json, nil
 }

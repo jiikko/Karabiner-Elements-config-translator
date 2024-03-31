@@ -14,7 +14,7 @@ https://github.com/pqrs-org/Karabiner-Elements のための設定ファイルを
 ## 使い方
 
 ```sh
-command <input-file> | ~/.config/karabiner/assets/complex_modifications/1234.json
+command <input-file> | jq | ~/.config/karabiner/assets/complex_modifications/1234.json
 ```
 
 ## 例
@@ -24,8 +24,7 @@ command <input-file> | ~/.config/karabiner/assets/complex_modifications/1234.jso
 input
 
 ```yaml
-title:
-  - my config
+title: my config
 maintainers:
   - foo
 rules:
