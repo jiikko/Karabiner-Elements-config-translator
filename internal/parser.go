@@ -5,7 +5,7 @@ import "os"
 type Parser struct {
 	filepath string
 	content  string
-	config   Config
+	config   *Config
 }
 
 func NewParser(filepath string) (*Parser, error) {
@@ -18,7 +18,10 @@ func NewParser(filepath string) (*Parser, error) {
 		filepath: filepath,
 		content:  string(content),
 	}
-	parser.config = NewConfig(parser.content)
+	parser.config, err = NewConfig(parser.content)
+	if err != nil {
+		return nil, err
+	}
 
 	return parser, nil
 }
