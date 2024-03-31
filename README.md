@@ -24,16 +24,16 @@ command <input-file> | ~/.config/karabiner/assets/complex_modifications/1234.jso
 input
 
 ```yaml
-:title:
+title:
   - my config
-:maintainers:
+maintainers:
   - foo
-:rules:
+rules:
   - description: disable command + m(最小化)
-    :from:
+    from:
       - m
       - command
-    :to:
+    to:
       - none
 ```
 
@@ -115,16 +115,16 @@ jis, ansi キーボードの設定
 input
 
 ```yaml
-:title:
+title:
   - UK→US Mac keyboard
-:maintainers:
+maintainers:
   - foo
-:rules:
-  - :description: "右Ctrl+1を押すと:bow:を入力する"
-    :from:
+rules:
+  - description: "右Ctrl+1を押すと:bow:を入力する"
+    from:
       - 1
       - right_control
-    :to:
+    to:
       - japanese_eisuu
       - " "
       - - ":"
