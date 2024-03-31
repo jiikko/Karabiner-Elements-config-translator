@@ -19,16 +19,10 @@ func (c Config) ToJSON(content string) (string, error) {
 		"rules": func() []JSONRule {
 			var rules []JSONRule
 			for _, rule := range c.Rules {
-				rule_from := ConfigRuleFrom{
-					value: rule.From,
-				}
-				rule_to := ConfigRuleTo{
-					value: rule.To,
-				}
 				jsonRule := JSONRule{
 					Description: rule.Description,
-					From:        rule_from.serialize(),
-					To:          rule_to.serialize(),
+					From:        rule.FromSerialize(),
+					To:          rule.ToSerialize(),
 					Type:        "basic",
 				}
 				rules = append(rules, jsonRule)

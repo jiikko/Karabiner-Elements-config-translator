@@ -1,12 +1,14 @@
 package internal
 
-type ConfigRuleFrom struct {
-	value []string
+type Rule struct {
+	Description string        `json:"description" yaml:"description"`
+	From        []string      `yaml:"from"`
+	To          []interface{} `yaml:"to"` // TODO: interface{}を具体的な型に変更する
 }
 
-func (crf *ConfigRuleFrom) serialize() map[string]interface{} {
+func (r Rule) FromSerialize() map[string]interface{} {
 	from := make(map[string]interface{})
-	for _, value := range crf.value {
+	for _, value := range r.From {
 		if value == "command" {
 			from["modifiers"] = map[string][]string{
 				"mandatory": []string{"command"},
@@ -18,17 +20,13 @@ func (crf *ConfigRuleFrom) serialize() map[string]interface{} {
 	return from
 }
 
-type ConfigRuleTo struct {
-	value []interface{}
-}
-
-func (crt *ConfigRuleTo) serialize() []struct {
+func (r Rule) ToSerialize() []struct {
 	KeyCode string `json:"key_code"`
 } {
 	var to []struct {
 		KeyCode string `json:"key_code"`
 	}
-	for _, value := range crt.value {
+	for _, value := range r.To {
 		switch v := value.(type) {
 		case string:
 			keyCode := v
@@ -57,12 +55,6 @@ func (crt *ConfigRuleTo) serialize() []struct {
 		}
 	}
 	return to
-}
-
-type Rule struct {
-	Description string        `json:"description" yaml:"description"`
-	From        []string      `yaml:"from"`
-	To          []interface{} `yaml:"to"` // TODO: interface{}を具体的な型に変更する
 }
 
 type JSONRuleKeyCode struct {
