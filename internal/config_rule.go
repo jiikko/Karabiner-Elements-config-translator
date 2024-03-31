@@ -20,12 +20,12 @@ func (r Rule) FromSerialize() map[string]interface{} {
 	return from
 }
 
-func (r Rule) ToSerialize() []struct {
+type KeyCodeStruct struct {
 	KeyCode string `json:"key_code"`
-} {
-	var to []struct {
-		KeyCode string `json:"key_code"`
-	}
+}
+
+func (r Rule) ToSerialize() []KeyCodeStruct {
+	var to []KeyCodeStruct
 	for _, value := range r.To {
 		switch v := value.(type) {
 		case string:
@@ -33,9 +33,7 @@ func (r Rule) ToSerialize() []struct {
 			if v == "none" {
 				keyCode = "vk_none"
 			}
-			to = append(to, struct {
-				KeyCode string `json:"key_code"`
-			}{
+			to = append(to, KeyCodeStruct{
 				KeyCode: keyCode,
 			})
 		case []interface{}:
@@ -45,9 +43,7 @@ func (r Rule) ToSerialize() []struct {
 					if key == "none" {
 						keyCode = "vk_none"
 					}
-					to = append(to, struct {
-						KeyCode string `json:"key_code"`
-					}{
+					to = append(to, KeyCodeStruct{
 						KeyCode: keyCode,
 					})
 				}
@@ -69,8 +65,6 @@ type JSONRuleFrom struct {
 type JSONRule struct {
 	Description string `json:"description"`
 	From        map[string]interface{}
-	To          []struct {
-		KeyCode string `json:"key_code"`
-	} `json:"to"`
-	Type string `json:"type"`
+	To          []KeyCodeStruct `json:"to"`
+	Type        string          `json:"type"`
 }
