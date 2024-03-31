@@ -65,13 +65,13 @@ output
 
 - conditions がある
 
-from
+input
 
 ```yaml
 
 ```
 
-to
+output
 
 ```json
 {
