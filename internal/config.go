@@ -7,9 +7,16 @@ import (
 )
 
 type Config struct {
-	Title       string   `yaml:"title"`
-	Maintainers []string `yaml:"maintainers"`
-	Rules       []Rule   `yaml:"rules"`
+	Title       string
+	Maintainers []string
+	Rules       []Rule
+}
+
+type JSONRule struct {
+	Description string
+	From        map[string]interface{}
+	To          []KeyCodeStruct
+	Type        string
 }
 
 func (c Config) ToJSON(content string) (string, error) {

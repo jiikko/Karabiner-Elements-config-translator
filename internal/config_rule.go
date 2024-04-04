@@ -1,7 +1,7 @@
 package internal
 
 type Rule struct {
-	Description string        `json:"description" yaml:"description"`
+	Description string        `yaml:"description"`
 	From        []string      `yaml:"from"`
 	To          []interface{} `yaml:"to"` // TODO: interface{}を具体的な型に変更する
 }
@@ -21,7 +21,7 @@ func (r Rule) FromSerialize() map[string]interface{} {
 }
 
 type KeyCodeStruct struct {
-	KeyCode string `json:"key_code"`
+	KeyCode string
 }
 
 func (r Rule) ToSerialize() []KeyCodeStruct {
@@ -51,20 +51,4 @@ func (r Rule) ToSerialize() []KeyCodeStruct {
 		}
 	}
 	return to
-}
-
-type JSONRuleKeyCode struct {
-	KeyCode string `json:"key_code"`
-}
-
-type JSONRuleFrom struct {
-	KeyCode   string   `json:"key_code"`
-	Modifiers []string `json:"modifiers"`
-}
-
-type JSONRule struct {
-	Description string `json:"description"`
-	From        map[string]interface{}
-	To          []KeyCodeStruct `json:"to"`
-	Type        string          `json:"type"`
 }
