@@ -9,7 +9,7 @@ import (
 type Config struct {
 	Title       string
 	Maintainers []string
-	Rules       []Rule
+	Rules       []ConfigRule
 }
 
 type JSONRule struct {
@@ -37,12 +37,11 @@ func (c Config) ToJSON(content string) (string, error) {
 		"rules": func() []JSONRule {
 			var rules []JSONRule
 			for _, rule := range c.Rules {
-				jsonRule := JSONRule{
-					Description: rule.Description,
-					From:        rule.FromSerialize(),
-					To:          rule.ToSerialize(),
-					Type:        "basic",
+				jsonRule, err := rule.Serialize()
+				if err != nil {
+					return nil
 				}
+
 				rules = append(rules, jsonRule)
 			}
 			return rules

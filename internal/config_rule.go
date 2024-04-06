@@ -1,12 +1,29 @@
 package internal
 
-type Rule struct {
+type ConfigRule struct {
 	Description string        `yaml:"description"`
 	From        []string      `yaml:"from"`
 	To          []interface{} `yaml:"to"` // TODO: interface{}を具体的な型に変更する
 }
 
-func (r Rule) FromSerialize() map[string]interface{} {
+func (r ConfigRule) Serialize() (JSONRule, error) {
+	return JSONRule{
+		Description: r.Description,
+		From:        r.FromSerialize(),
+		To:          r.ToSerialize(),
+		Type:        "basic",
+	}, nil
+}
+
+type KeyCodeStruct struct {
+	KeyCode string `json:"key_code"`
+}
+
+type ConfigRuleFrom struct {
+	KeyCode string `json:"key_code,omitempty"`
+}
+
+func (r ConfigRule) FromSerialize() map[string]interface{} {
 	from := make(map[string]interface{})
 	for _, value := range r.From {
 		if value == "command" {
@@ -20,11 +37,7 @@ func (r Rule) FromSerialize() map[string]interface{} {
 	return from
 }
 
-type KeyCodeStruct struct {
-	KeyCode string `json:"key_code"`
-}
-
-func (r Rule) ToSerialize() []KeyCodeStruct {
+func (r ConfigRule) ToSerialize() []KeyCodeStruct {
 	var to []KeyCodeStruct
 	for _, value := range r.To {
 		switch v := value.(type) {
