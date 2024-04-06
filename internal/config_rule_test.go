@@ -7,11 +7,11 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestFromSerialize(t *testing.T) {
+func TestFromSerializeWithCommand(t *testing.T) {
 	rule := ConfigRule{
 		From: []string{"command", "a"},
 	}
-	from := rule.FromSerialize()
+	from, _ := rule.FromSerialize()
 	j, _ := json.Marshal(from)
 
 	expected := `{
@@ -25,11 +25,11 @@ func TestFromSerialize(t *testing.T) {
 	)
 }
 
-func TestFromSerialize2(t *testing.T) {
+func TestFromSerializeOnlyKeyCode(t *testing.T) {
 	rule := ConfigRule{
 		From: []string{"a"},
 	}
-	from := rule.FromSerialize()
+	from, _ := rule.FromSerialize()
 	j, _ := json.Marshal(from)
 
 	expected := `{
@@ -42,20 +42,11 @@ func TestFromSerialize2(t *testing.T) {
 	)
 }
 
-func TestFromSerialize3(t *testing.T) {
+func TestFromSerializeWithMultipleKeyCodesError(t *testing.T) {
 	rule := ConfigRule{
 		From: []string{"a", "b"},
 	}
-	from := rule.FromSerialize()
-	j, _ := json.Marshal(from)
-
-	// TODO: エラーにする
-	expected := `{
-		"key_code": "b"
-	}`
-	assert.JSONEq(
-		t,
-		expected,
-		string(j),
-	)
+	from, err := rule.FromSerialize()
+	assert.Nil(t, from)
+	assert.EqualError(t, err, "multiple key_code values are not allowed")
 }
