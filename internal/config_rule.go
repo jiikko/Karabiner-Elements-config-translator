@@ -21,7 +21,7 @@ func (r Rule) FromSerialize() map[string]interface{} {
 }
 
 type KeyCodeStruct struct {
-	KeyCode string
+	KeyCode string `json:"key_code"`
 }
 
 func (r Rule) ToSerialize() []KeyCodeStruct {

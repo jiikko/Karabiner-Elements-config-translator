@@ -13,10 +13,21 @@ type Config struct {
 }
 
 type JSONRule struct {
-	Description string
-	From        map[string]interface{}
-	To          []KeyCodeStruct
-	Type        string
+	Description string                 `json:"description"`
+	From        map[string]interface{} `json:"from"`
+	To          []KeyCodeStruct        `json:"to"`
+	Type        string                 `json:"type"`
+}
+
+func NewConfig(content string) (*Config, error) {
+	var config Config
+	err := yaml.Unmarshal([]byte(content), &config)
+
+	if err != nil {
+		return nil, err
+	}
+	// p.P(config)
+	return &config, nil
 }
 
 func (c Config) ToJSON(content string) (string, error) {
@@ -43,15 +54,4 @@ func (c Config) ToJSON(content string) (string, error) {
 		return "", err
 	}
 	return string(jsonData), nil
-}
-
-func NewConfig(content string) (*Config, error) {
-	var config Config
-	err := yaml.Unmarshal([]byte(content), &config)
-
-	if err != nil {
-		return nil, err
-	}
-	// p.P(config)
-	return &config, nil
 }
