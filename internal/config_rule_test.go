@@ -25,6 +25,24 @@ func TestFromSerializeWithCommand(t *testing.T) {
 	)
 }
 
+func TestFromSerializeWithShift(t *testing.T) {
+	rule := ConfigRule{
+		From: []string{"shift", "a"},
+	}
+	from, _ := rule.FromSerialize()
+	j, _ := json.Marshal(from)
+
+	expected := `{
+		"key_code": "a",
+		"modifiers": { "mandatory": ["shift"] }
+	}`
+	assert.JSONEq(
+		t,
+		expected,
+		string(j),
+	)
+}
+
 func TestFromSerializeOnlyKeyCode(t *testing.T) {
 	rule := ConfigRule{
 		From: []string{"a"},

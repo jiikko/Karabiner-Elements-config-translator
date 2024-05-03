@@ -32,13 +32,34 @@ type ConfigRuleFrom struct {
 	KeyCode string `json:"key_code,omitempty"`
 }
 
+func isModifierKey(value string) bool {
+	modifierKeys := map[string]bool{
+		"command":       true,
+		"shift":         true,
+		"control":       true,
+		"option":        true,
+		"caps_lock":     true,
+		"fn":            true,
+		"left_command":  true,
+		"right_command": true,
+		"left_shift":    true,
+		"right_shift":   true,
+		"left_control":  true,
+		"right_control": true,
+		"left_option":   true,
+		"right_option":  true,
+	}
+
+	return modifierKeys[value]
+}
+
 func (r ConfigRule) FromSerialize() (map[string]interface{}, error) {
 	from := make(map[string]interface{})
 
 	for _, value := range r.From {
-		if value == "command" {
+		if isModifierKey(value) {
 			from["modifiers"] = map[string][]string{
-				"mandatory": []string{"command"},
+				"mandatory": []string{value},
 			}
 		} else {
 			if _, exists := from["key_code"]; exists {
