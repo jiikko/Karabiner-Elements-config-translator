@@ -5,9 +5,10 @@ import (
 )
 
 type ConfigRule struct {
-	Description string        `yaml:"description"`
-	From        []string      `yaml:"from"`
-	To          []interface{} `yaml:"to"` // TODO: interface{}を具体的な型に変更する
+	Description  string        `yaml:"description"`
+	From         []string      `yaml:"from"`
+	FromOptional []string      `yaml:"from_optional"`
+	To           []interface{} `yaml:"to"` // TODO: interface{}を具体的な型に変更する
 }
 
 func (r ConfigRule) Serialize() (JSONRule, error) {
@@ -69,6 +70,17 @@ func (r ConfigRule) FromSerialize() (map[string]interface{}, error) {
 			from["key_code"] = value
 		}
 	}
+
+	if r.FromOptional != nil {
+		from["optional"] = []string{}
+	}
+
+	for _, value := range r.FromOptional {
+		if isModifierKey(value) || value == "any" {
+			from["optional"] = append(from["optional"].([]string), value)
+		}
+	}
+
 	return from, nil
 }
 

@@ -43,6 +43,46 @@ func TestFromSerializeWithShift(t *testing.T) {
 	)
 }
 
+func TestFromSerializeWithShiftAndHasOptional(t *testing.T) {
+	rule := ConfigRule{
+		From:         []string{"shift", "a"},
+		FromOptional: []string{"option", "command"},
+	}
+	from, _ := rule.FromSerialize()
+	j, _ := json.Marshal(from)
+
+	expected := `{
+		"key_code": "a",
+		"modifiers": { "mandatory": ["shift"] },
+	  "optional": ["option", "command"]
+	}`
+	assert.JSONEq(
+		t,
+		expected,
+		string(j),
+	)
+}
+
+func TestFromSerializeWithShiftAndHasAnyOptional(t *testing.T) {
+	rule := ConfigRule{
+		From:         []string{"shift", "a"},
+		FromOptional: []string{"any"},
+	}
+	from, _ := rule.FromSerialize()
+	j, _ := json.Marshal(from)
+
+	expected := `{
+		"key_code": "a",
+		"modifiers": { "mandatory": ["shift"] },
+	  "optional": ["any"]
+	}`
+	assert.JSONEq(
+		t,
+		expected,
+		string(j),
+	)
+}
+
 func TestFromSerializeOnlyKeyCode(t *testing.T) {
 	rule := ConfigRule{
 		From: []string{"a"},

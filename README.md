@@ -60,6 +60,53 @@ output
 }
 ```
 
+### 1-2
+
+optional がある
+
+input
+
+```yaml
+title: my config
+maintainers:
+  - foo
+rules:
+  - description: disable command + m(最小化)
+    from:
+      - m
+      - command
+  - from_optional:
+      - shift
+      - control
+    to:
+      - none
+```
+
+output
+
+```json
+{
+  "title": "my config",
+  "maintainers": ["foo"],
+  "rules": [
+    {
+      "description": "disable command + m(最小化)",
+      "manipulators": [
+        {
+          "from": {
+            "key_code": "m",
+            "modifiers": { "mandatory": ["command"] }
+            "optional": ["shift", "control"]
+          },
+          "to": [{ "key_code": "vk_none" }],
+          "type": "basic"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ### 2
 
 - conditions がある
