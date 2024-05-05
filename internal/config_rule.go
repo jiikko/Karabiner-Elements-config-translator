@@ -57,11 +57,28 @@ func isModifierKey(value string) bool {
 func (r ConfigRule) FromSerialize() (map[string]interface{}, error) {
 	from := make(map[string]interface{})
 
+	hasModifierKey := false
 	for _, value := range r.From {
 		if isModifierKey(value) {
-			from["modifiers"] = map[string][]string{
-				"mandatory": []string{value},
-			}
+			hasModifierKey = true
+			break
+		}
+	}
+
+	if hasModifierKey {
+		from["modifiers"] = map[string]interface{}{
+			"mandatory": []interface{}{},
+		}
+	} else {
+		delete(from, "modifiers")
+	}
+
+	for _, value := range r.From {
+		if isModifierKey(value) {
+			from["modifiers"].(map[string]interface{})["mandatory"] = append(
+				from["modifiers"].(map[string]interface{})["mandatory"].([]interface{}),
+				value,
+			)
 		} else {
 			if _, exists := from["key_code"]; exists {
 				return nil, errors.New("multiple key_code values are not allowed")

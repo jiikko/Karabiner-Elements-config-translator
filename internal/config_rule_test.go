@@ -45,7 +45,7 @@ func TestFromSerializeWithShift(t *testing.T) {
 
 func TestFromSerializeWithShiftAndHasOptional(t *testing.T) {
 	rule := ConfigRule{
-		From:         []string{"shift", "a"},
+		From:         []string{"shift", "a", "control"},
 		FromOptional: []string{"option", "command"},
 	}
 	from, _ := rule.FromSerialize()
@@ -53,7 +53,7 @@ func TestFromSerializeWithShiftAndHasOptional(t *testing.T) {
 
 	expected := `{
 		"key_code": "a",
-		"modifiers": { "mandatory": ["shift"] },
+		"modifiers": { "mandatory": ["shift", "control"] },
 	  "optional": ["option", "command"]
 	}`
 	assert.JSONEq(
