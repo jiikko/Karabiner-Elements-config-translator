@@ -161,12 +161,8 @@ jis, ansi キーボードの設定
 input
 
 ```yaml
-title:
-  - UK→US Mac keyboard
-maintainers:
-  - foo
-rules:
-  - description: "右Ctrl+1を押すと:bow:を入力する"
+shared_rules:
+  - &a
     from:
       - 1
       - right_control
@@ -180,6 +176,24 @@ rules:
       - w
       - - ":"
         - left_shift
+
+title: UK→US Mac keyboard
+maintainers:
+  - foo
+rules:
+  - <<: *a
+    description: 右Ctrl+1を押すと:bow:を入力する(ansi, iso)
+    conditions:
+      - type: keyboard_type_if
+        keyboard_types:
+          - ansi
+          - iso
+  - <<: *a
+    description: 右Ctrl+1を押すと:bow:を入力する(jis)
+    conditions:
+      - type: keyboard_type_if
+        keyboard_types:
+          - jis
 ```
 
 output
