@@ -7,11 +7,11 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestFromSerializeWithCommand(t *testing.T) {
+func TestfromSerializeWithCommand(t *testing.T) {
 	rule := ConfigRuleManipulator{
 		From: []string{"command", "a"},
 	}
-	from, _ := rule.FromSerialize()
+	from, _ := rule.fromSerialize()
 	j, _ := json.Marshal(from)
 
 	expected := `{
@@ -25,11 +25,11 @@ func TestFromSerializeWithCommand(t *testing.T) {
 	)
 }
 
-func TestFromSerializeWithShift(t *testing.T) {
+func TestfromSerializeWithShift(t *testing.T) {
 	rule := ConfigRuleManipulator{
 		From: []string{"shift", "a"},
 	}
-	from, _ := rule.FromSerialize()
+	from, _ := rule.fromSerialize()
 	j, _ := json.Marshal(from)
 
 	expected := `{
@@ -43,12 +43,12 @@ func TestFromSerializeWithShift(t *testing.T) {
 	)
 }
 
-func TestFromSerializeWithShiftAndHasOptional(t *testing.T) {
+func TestfromSerializeWithShiftAndHasOptional(t *testing.T) {
 	rule := ConfigRuleManipulator{
 		From:         []string{"shift", "a", "control"},
 		FromOptional: []string{"option", "command"},
 	}
-	from, _ := rule.FromSerialize()
+	from, _ := rule.fromSerialize()
 	j, _ := json.Marshal(from)
 
 	expected := `{
@@ -63,12 +63,12 @@ func TestFromSerializeWithShiftAndHasOptional(t *testing.T) {
 	)
 }
 
-func TestFromSerializeWithShiftAndHasAnyOptional(t *testing.T) {
+func TestfromSerializeWithShiftAndHasAnyOptional(t *testing.T) {
 	rule := ConfigRuleManipulator{
 		From:         []string{"shift", "a"},
 		FromOptional: []string{"any"},
 	}
-	from, _ := rule.FromSerialize()
+	from, _ := rule.fromSerialize()
 	j, _ := json.Marshal(from)
 
 	expected := `{
@@ -83,11 +83,11 @@ func TestFromSerializeWithShiftAndHasAnyOptional(t *testing.T) {
 	)
 }
 
-func TestFromSerializeOnlyKeyCode(t *testing.T) {
+func TestfromSerializeOnlyKeyCode(t *testing.T) {
 	rule := ConfigRuleManipulator{
 		From: []string{"a"},
 	}
-	from, _ := rule.FromSerialize()
+	from, _ := rule.fromSerialize()
 	j, _ := json.Marshal(from)
 
 	expected := `{
@@ -100,11 +100,11 @@ func TestFromSerializeOnlyKeyCode(t *testing.T) {
 	)
 }
 
-func TestFromSerializeWithMultipleKeyCodesError(t *testing.T) {
+func TestfromSerializeWithMultipleKeyCodesError(t *testing.T) {
 	rule := ConfigRuleManipulator{
 		From: []string{"a", "b"},
 	}
-	from, err := rule.FromSerialize()
+	from, err := rule.fromSerialize()
 	assert.Nil(t, from)
 	assert.EqualError(t, err, "multiple key_code values are not allowed")
 }

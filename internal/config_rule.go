@@ -43,19 +43,19 @@ type ConfigRuleFrom struct {
 }
 
 func (m ConfigRuleManipulator) serialize() (JSONRuleManipulator, error) {
-	serializedFrom, err := m.FromSerialize()
+	serializedFrom, err := m.fromSerialize()
 	if err != nil {
 		return JSONRuleManipulator{}, err
 	}
 
 	return JSONRuleManipulator{
 		From: serializedFrom,
-		To:   m.ToSerialize(),
+		To:   m.toSerialize(),
 		Type: "basic",
 	}, nil
 }
 
-func (r ConfigRuleManipulator) FromSerialize() (map[string]interface{}, error) {
+func (r ConfigRuleManipulator) fromSerialize() (map[string]interface{}, error) {
 	from := make(map[string]interface{})
 
 	hasModifierKey := false
@@ -102,7 +102,7 @@ func (r ConfigRuleManipulator) FromSerialize() (map[string]interface{}, error) {
 	return from, nil
 }
 
-func (r ConfigRuleManipulator) ToSerialize() []KeyCodeStruct {
+func (r ConfigRuleManipulator) toSerialize() []KeyCodeStruct {
 	var to []KeyCodeStruct
 	for _, value := range r.To {
 		switch v := value.(type) {
