@@ -26,7 +26,6 @@ func NewConfig(content string) (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
-	// p.P(config)
 	return &config, nil
 }
 
@@ -35,16 +34,16 @@ func (c Config) ToJSON(content string) (string, error) {
 		"title":       c.Title,
 		"maintainers": c.Maintainers,
 		"rules": func() []JSONRule {
-			var rules []JSONRule
+			var outputRules []JSONRule
 			for _, rule := range c.Rules {
 				jsonRule, err := rule.Serialize()
 				if err != nil {
 					return nil
 				}
 
-				rules = append(rules, jsonRule)
+				outputRules = append(outputRules, jsonRule)
 			}
-			return rules
+			return outputRules
 		}(),
 	}
 
