@@ -11,6 +11,10 @@ https://github.com/pqrs-org/Karabiner-Elements のための設定ファイルを
 - 設定内容の多くに記号的な表現が多く、読み書きが若干難しい
 - 誤った記述してもエラーが出ないので不親切
 
+## TODO
+
+- yaml の構文チェック
+
 ## 使い方
 
 ```sh

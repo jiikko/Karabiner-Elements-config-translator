@@ -12,11 +12,15 @@ type Config struct {
 	Rules       []ConfigRule
 }
 
+type JSONRuleManipulator struct {
+	From map[string]interface{} `json:"from"`
+	To   []KeyCodeStruct        `json:"to"`
+	Type string                 `json:"type"`
+}
+
 type JSONRule struct {
-	Description string                 `json:"description"`
-	From        map[string]interface{} `json:"from"`
-	To          []KeyCodeStruct        `json:"to"`
-	Type        string                 `json:"type"`
+	Description  string                `json:"description"`
+	Manipulators []JSONRuleManipulator `json:"manipulators"`
 }
 
 func NewConfig(content string) (*Config, error) {

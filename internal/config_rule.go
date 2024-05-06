@@ -4,24 +4,31 @@ import (
 	"errors"
 )
 
-type ConfigRule struct {
-	Description  string        `yaml:"description"`
+type ConfigRuleManipulator struct {
 	From         []string      `yaml:"from"`
 	FromOptional []string      `yaml:"from_optional"`
 	To           []interface{} `yaml:"to"` // TODO: interface{}を具体的な型に変更する
 }
 
+type ConfigRule struct {
+	Description  string                  `yaml:"description"`
+	Manipulators []ConfigRuleManipulator `yaml:"manipulators"`
+}
+
 func (r ConfigRule) Serialize() (JSONRule, error) {
-	serializedFrom, err := r.FromSerialize()
-	if err != nil {
-		return JSONRule{}, err
+	var jsonManipulators []JSONRuleManipulator
+	for _, manipulator := range r.Manipulators {
+		// p.P("manipulator", manipulator)
+		jsonManipulator, err := manipulator.serialize()
+		if err != nil {
+			return JSONRule{}, err
+		}
+		jsonManipulators = append(jsonManipulators, jsonManipulator)
 	}
 
 	return JSONRule{
-		Description: r.Description,
-		From:        serializedFrom,
-		To:          r.ToSerialize(),
-		Type:        "basic",
+		Description:  r.Description,
+		Manipulators: jsonManipulators,
 	}, nil
 }
 
@@ -31,6 +38,19 @@ type KeyCodeStruct struct {
 
 type ConfigRuleFrom struct {
 	KeyCode string `json:"key_code,omitempty"`
+}
+
+func (m ConfigRuleManipulator) serialize() (JSONRuleManipulator, error) {
+	serializedFrom, err := m.FromSerialize()
+	if err != nil {
+		return JSONRuleManipulator{}, err
+	}
+
+	return JSONRuleManipulator{
+		From: serializedFrom,
+		To:   m.ToSerialize(),
+		Type: "basic",
+	}, nil
 }
 
 func isModifierKey(value string) bool {
@@ -54,7 +74,7 @@ func isModifierKey(value string) bool {
 	return modifierKeys[value]
 }
 
-func (r ConfigRule) FromSerialize() (map[string]interface{}, error) {
+func (r ConfigRuleManipulator) FromSerialize() (map[string]interface{}, error) {
 	from := make(map[string]interface{})
 
 	hasModifierKey := false
@@ -101,7 +121,7 @@ func (r ConfigRule) FromSerialize() (map[string]interface{}, error) {
 	return from, nil
 }
 
-func (r ConfigRule) ToSerialize() []KeyCodeStruct {
+func (r ConfigRuleManipulator) ToSerialize() []KeyCodeStruct {
 	var to []KeyCodeStruct
 	for _, value := range r.To {
 		switch v := value.(type) {
