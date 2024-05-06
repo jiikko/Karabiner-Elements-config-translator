@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestfromSerializeWithCommand(t *testing.T) {
+func TestFromSerializeWithCommand(t *testing.T) {
 	rule := ConfigRuleManipulator{
 		From: []string{"command", "a"},
 	}
@@ -25,7 +25,7 @@ func TestfromSerializeWithCommand(t *testing.T) {
 	)
 }
 
-func TestfromSerializeWithShift(t *testing.T) {
+func TestFromSerializeWithShift(t *testing.T) {
 	rule := ConfigRuleManipulator{
 		From: []string{"shift", "a"},
 	}
@@ -43,7 +43,7 @@ func TestfromSerializeWithShift(t *testing.T) {
 	)
 }
 
-func TestfromSerializeWithShiftAndHasOptional(t *testing.T) {
+func TestFromSerializeWithShiftAndHasOptional(t *testing.T) {
 	rule := ConfigRuleManipulator{
 		From:         []string{"shift", "a", "control"},
 		FromOptional: []string{"option", "command"},
@@ -63,7 +63,7 @@ func TestfromSerializeWithShiftAndHasOptional(t *testing.T) {
 	)
 }
 
-func TestfromSerializeWithShiftAndHasAnyOptional(t *testing.T) {
+func TestFromSerializeWithShiftAndHasAnyOptional(t *testing.T) {
 	rule := ConfigRuleManipulator{
 		From:         []string{"shift", "a"},
 		FromOptional: []string{"any"},
@@ -83,7 +83,7 @@ func TestfromSerializeWithShiftAndHasAnyOptional(t *testing.T) {
 	)
 }
 
-func TestfromSerializeOnlyKeyCode(t *testing.T) {
+func TestFromSerializeOnlyKeyCode(t *testing.T) {
 	rule := ConfigRuleManipulator{
 		From: []string{"a"},
 	}
@@ -100,7 +100,7 @@ func TestfromSerializeOnlyKeyCode(t *testing.T) {
 	)
 }
 
-func TestfromSerializeWithMultipleKeyCodesError(t *testing.T) {
+func TestFromSerializeWithMultipleKeyCodesError(t *testing.T) {
 	rule := ConfigRuleManipulator{
 		From: []string{"a", "b"},
 	}
