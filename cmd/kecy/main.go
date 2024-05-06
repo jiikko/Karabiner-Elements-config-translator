@@ -17,13 +17,13 @@ func main() {
 	parser, err := internal.NewParser(filepath)
 	if err != nil {
 		fmt.Println("Error:", err)
-		return
+		os.Exit(1)
 	}
 
 	json, err := parser.ToJSON()
 	if err != nil {
 		fmt.Println("Error:", err)
-		return
+		os.Exit(1)
 	}
 
 	fmt.Println(json)

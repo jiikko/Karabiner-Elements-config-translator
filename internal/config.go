@@ -34,14 +34,17 @@ func NewConfig(content string) (*Config, error) {
 }
 
 func (c Config) ToJSON(content string) (string, error) {
+	var err error
 	jsonConfig := map[string]interface{}{
 		"title":       c.Title,
 		"maintainers": c.Maintainers,
 		"rules": func() []JSONRule {
 			var outputRules []JSONRule
 			for _, rule := range c.Rules {
-				jsonRule, err := rule.Serialize()
-				if err != nil {
+				jsonRule, e := rule.Serialize()
+
+				if e != nil {
+					err = e
 					return nil
 				}
 
@@ -51,9 +54,13 @@ func (c Config) ToJSON(content string) (string, error) {
 		}(),
 	}
 
-	jsonData, err := json.Marshal(jsonConfig)
 	if err != nil {
 		return "", err
+	}
+
+	jsonData, e := json.Marshal(jsonConfig)
+	if e != nil {
+		return "", e
 	}
 	return string(jsonData), nil
 }

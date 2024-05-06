@@ -1,0 +1,12 @@
+title: my config
+maintainers:
+  - foo
+rules:
+  - description: disable command + m(最小化)
+    manipulators:
+    - from:
+        - b
+        - m
+        - command
+      to:
+        - none
