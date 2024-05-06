@@ -107,9 +107,9 @@ func (m ConfigRuleManipulator) toSerialize() []KeyCodeStruct {
 	for _, value := range m.To {
 		switch v := value.(type) {
 		case string:
-			keyCode := v
-			if v == "none" {
-				keyCode = "vk_none"
+			keyCode, err := util.ConvertToKeyCode(v)
+			if err != nil {
+				return nil
 			}
 			to = append(to, KeyCodeStruct{
 				KeyCode: keyCode,
@@ -117,9 +117,9 @@ func (m ConfigRuleManipulator) toSerialize() []KeyCodeStruct {
 		case []interface{}:
 			for _, item := range v {
 				if key, ok := item.(string); ok {
-					keyCode := key
-					if key == "none" {
-						keyCode = "vk_none"
+					keyCode, err := util.ConvertToKeyCode(key)
+					if err != nil {
+						return nil
 					}
 					to = append(to, KeyCodeStruct{
 						KeyCode: keyCode,

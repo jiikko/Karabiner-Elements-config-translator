@@ -20,3 +20,41 @@ func IsModifierKey(value string) bool {
 
 	return modifierKeys[value]
 }
+
+func ConvertToKeyCode(value string) (string, error) {
+	keyCodeMap := map[string]string{
+		" ":  "spacebar",
+		":":  "semicolon",
+		";":  "semicolon",
+		"'":  "quote",
+		"\"": "quote",
+		"\\": "backslash",
+		"|":  "backslash",
+		",":  "comma",
+		"<":  "comma",
+		".":  "period",
+		">":  "period",
+		"/":  "slash",
+		"?":  "slash",
+		"=":  "equal_sign",
+		"+":  "equal_sign",
+		"-":  "hyphen",
+		"_":  "hyphen",
+		"*":  "asterisk",
+	}
+
+	customKeyCodeMap := map[string]string{
+		"none": "vk_none",
+	}
+	returnValue, exists := keyCodeMap[value]
+	if exists {
+		return returnValue, nil
+	} else {
+		returnValue, exists = customKeyCodeMap[value]
+		if exists {
+			return returnValue, nil
+		} else {
+			return value, nil
+		}
+	}
+}
