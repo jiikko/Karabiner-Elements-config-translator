@@ -8,7 +8,7 @@ import (
 )
 
 func TestFromSerializeWithCommand(t *testing.T) {
-	rule := ConfigRule{
+	rule := ConfigRuleManipulator{
 		From: []string{"command", "a"},
 	}
 	from, _ := rule.FromSerialize()
@@ -26,7 +26,7 @@ func TestFromSerializeWithCommand(t *testing.T) {
 }
 
 func TestFromSerializeWithShift(t *testing.T) {
-	rule := ConfigRule{
+	rule := ConfigRuleManipulator{
 		From: []string{"shift", "a"},
 	}
 	from, _ := rule.FromSerialize()
@@ -44,7 +44,7 @@ func TestFromSerializeWithShift(t *testing.T) {
 }
 
 func TestFromSerializeWithShiftAndHasOptional(t *testing.T) {
-	rule := ConfigRule{
+	rule := ConfigRuleManipulator{
 		From:         []string{"shift", "a", "control"},
 		FromOptional: []string{"option", "command"},
 	}
@@ -64,7 +64,7 @@ func TestFromSerializeWithShiftAndHasOptional(t *testing.T) {
 }
 
 func TestFromSerializeWithShiftAndHasAnyOptional(t *testing.T) {
-	rule := ConfigRule{
+	rule := ConfigRuleManipulator{
 		From:         []string{"shift", "a"},
 		FromOptional: []string{"any"},
 	}
@@ -84,7 +84,7 @@ func TestFromSerializeWithShiftAndHasAnyOptional(t *testing.T) {
 }
 
 func TestFromSerializeOnlyKeyCode(t *testing.T) {
-	rule := ConfigRule{
+	rule := ConfigRuleManipulator{
 		From: []string{"a"},
 	}
 	from, _ := rule.FromSerialize()
@@ -101,7 +101,7 @@ func TestFromSerializeOnlyKeyCode(t *testing.T) {
 }
 
 func TestFromSerializeWithMultipleKeyCodesError(t *testing.T) {
-	rule := ConfigRule{
+	rule := ConfigRuleManipulator{
 		From: []string{"a", "b"},
 	}
 	from, err := rule.FromSerialize()
