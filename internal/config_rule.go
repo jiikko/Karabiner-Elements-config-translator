@@ -55,11 +55,11 @@ func (m ConfigRuleManipulator) serialize() (JSONRuleManipulator, error) {
 	}, nil
 }
 
-func (r ConfigRuleManipulator) fromSerialize() (map[string]interface{}, error) {
+func (m ConfigRuleManipulator) fromSerialize() (map[string]interface{}, error) {
 	from := make(map[string]interface{})
 
 	hasModifierKey := false
-	for _, value := range r.From {
+	for _, value := range m.From {
 		if util.IsModifierKey(value) {
 			hasModifierKey = true
 			break
@@ -74,7 +74,7 @@ func (r ConfigRuleManipulator) fromSerialize() (map[string]interface{}, error) {
 		delete(from, "modifiers")
 	}
 
-	for _, value := range r.From {
+	for _, value := range m.From {
 		if util.IsModifierKey(value) {
 			from["modifiers"].(map[string]interface{})["mandatory"] = append(
 				from["modifiers"].(map[string]interface{})["mandatory"].([]interface{}),
@@ -89,11 +89,11 @@ func (r ConfigRuleManipulator) fromSerialize() (map[string]interface{}, error) {
 		}
 	}
 
-	if r.FromOptional != nil {
+	if m.FromOptional != nil {
 		from["optional"] = []string{}
 	}
 
-	for _, value := range r.FromOptional {
+	for _, value := range m.FromOptional {
 		if util.IsModifierKey(value) || value == "any" {
 			from["optional"] = append(from["optional"].([]string), value)
 		}
@@ -102,9 +102,9 @@ func (r ConfigRuleManipulator) fromSerialize() (map[string]interface{}, error) {
 	return from, nil
 }
 
-func (r ConfigRuleManipulator) toSerialize() []KeyCodeStruct {
+func (m ConfigRuleManipulator) toSerialize() []KeyCodeStruct {
 	var to []KeyCodeStruct
-	for _, value := range r.To {
+	for _, value := range m.To {
 		switch v := value.(type) {
 		case string:
 			keyCode := v
