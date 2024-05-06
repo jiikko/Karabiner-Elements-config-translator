@@ -2,6 +2,8 @@ package internal
 
 import (
 	"errors"
+
+	"github.com/jiikko/Karabiner-Elements-config-yaml/internal/util"
 )
 
 type ConfigRuleManipulator struct {
@@ -53,33 +55,12 @@ func (m ConfigRuleManipulator) serialize() (JSONRuleManipulator, error) {
 	}, nil
 }
 
-func isModifierKey(value string) bool {
-	modifierKeys := map[string]bool{
-		"command":       true,
-		"shift":         true,
-		"control":       true,
-		"option":        true,
-		"caps_lock":     true,
-		"fn":            true,
-		"left_command":  true,
-		"right_command": true,
-		"left_shift":    true,
-		"right_shift":   true,
-		"left_control":  true,
-		"right_control": true,
-		"left_option":   true,
-		"right_option":  true,
-	}
-
-	return modifierKeys[value]
-}
-
 func (r ConfigRuleManipulator) FromSerialize() (map[string]interface{}, error) {
 	from := make(map[string]interface{})
 
 	hasModifierKey := false
 	for _, value := range r.From {
-		if isModifierKey(value) {
+		if util.IsModifierKey(value) {
 			hasModifierKey = true
 			break
 		}
@@ -94,7 +75,7 @@ func (r ConfigRuleManipulator) FromSerialize() (map[string]interface{}, error) {
 	}
 
 	for _, value := range r.From {
-		if isModifierKey(value) {
+		if util.IsModifierKey(value) {
 			from["modifiers"].(map[string]interface{})["mandatory"] = append(
 				from["modifiers"].(map[string]interface{})["mandatory"].([]interface{}),
 				value,
@@ -113,7 +94,7 @@ func (r ConfigRuleManipulator) FromSerialize() (map[string]interface{}, error) {
 	}
 
 	for _, value := range r.FromOptional {
-		if isModifierKey(value) || value == "any" {
+		if util.IsModifierKey(value) || value == "any" {
 			from["optional"] = append(from["optional"].([]string), value)
 		}
 	}
