@@ -1,4 +1,4 @@
-package internal
+package serializer
 
 import (
 	"encoding/json"
@@ -8,10 +8,10 @@ import (
 )
 
 func TestFromSerializeWithCommand(t *testing.T) {
-	rule := ConfigRuleManipulator{
+	rule := ConfigRuleManipulatorFrom{
 		From: []string{"command", "a"},
 	}
-	from, _ := rule.fromSerialize()
+	from, _ := rule.Serialize()
 	j, _ := json.Marshal(from)
 
 	expected := `{
@@ -26,10 +26,10 @@ func TestFromSerializeWithCommand(t *testing.T) {
 }
 
 func TestFromSerializeWithShift(t *testing.T) {
-	rule := ConfigRuleManipulator{
+	rule := ConfigRuleManipulatorFrom{
 		From: []string{"shift", "a"},
 	}
-	from, _ := rule.fromSerialize()
+	from, _ := rule.Serialize()
 	j, _ := json.Marshal(from)
 
 	expected := `{
@@ -44,11 +44,11 @@ func TestFromSerializeWithShift(t *testing.T) {
 }
 
 func TestFromSerializeWithShiftAndHasOptional(t *testing.T) {
-	rule := ConfigRuleManipulator{
+	rule := ConfigRuleManipulatorFrom{
 		From:         []string{"shift", "a", "control"},
 		FromOptional: []string{"option", "command"},
 	}
-	from, _ := rule.fromSerialize()
+	from, _ := rule.Serialize()
 	j, _ := json.Marshal(from)
 
 	expected := `{
@@ -64,11 +64,11 @@ func TestFromSerializeWithShiftAndHasOptional(t *testing.T) {
 }
 
 func TestFromSerializeWithShiftAndHasAnyOptional(t *testing.T) {
-	rule := ConfigRuleManipulator{
+	rule := ConfigRuleManipulatorFrom{
 		From:         []string{"shift", "a"},
 		FromOptional: []string{"any"},
 	}
-	from, _ := rule.fromSerialize()
+	from, _ := rule.Serialize()
 	j, _ := json.Marshal(from)
 
 	expected := `{
@@ -84,10 +84,10 @@ func TestFromSerializeWithShiftAndHasAnyOptional(t *testing.T) {
 }
 
 func TestFromSerializeOnlyKeyCode(t *testing.T) {
-	rule := ConfigRuleManipulator{
+	rule := ConfigRuleManipulatorFrom{
 		From: []string{"a"},
 	}
-	from, _ := rule.fromSerialize()
+	from, _ := rule.Serialize()
 	j, _ := json.Marshal(from)
 
 	expected := `{
@@ -101,10 +101,10 @@ func TestFromSerializeOnlyKeyCode(t *testing.T) {
 }
 
 func TestFromSerializeWithMultipleKeyCodesError(t *testing.T) {
-	rule := ConfigRuleManipulator{
+	rule := ConfigRuleManipulatorFrom{
 		From: []string{"a", "b"},
 	}
-	from, err := rule.fromSerialize()
+	from, err := rule.Serialize()
 	assert.Nil(t, from)
 	assert.EqualError(t, err, "multiple key_code values are not allowed")
 }

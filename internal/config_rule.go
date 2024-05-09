@@ -1,8 +1,7 @@
 package internal
 
 import (
-	"errors"
-
+	"github.com/jiikko/Karabiner-Elements-config-yaml/internal/serializer"
 	"github.com/jiikko/Karabiner-Elements-config-yaml/internal/util"
 )
 
@@ -15,6 +14,14 @@ type ConfigRuleManipulator struct {
 type ConfigRule struct {
 	Description  string                  `yaml:"description"`
 	Manipulators []ConfigRuleManipulator `yaml:"manipulators"`
+}
+
+type KeyCodeStruct struct {
+	KeyCode string `json:"key_code"`
+}
+
+type ConfigRuleFrom struct {
+	KeyCode string `json:"key_code,omitempty"`
 }
 
 func (r ConfigRule) Serialize() (JSONRule, error) {
@@ -34,16 +41,13 @@ func (r ConfigRule) Serialize() (JSONRule, error) {
 	}, nil
 }
 
-type KeyCodeStruct struct {
-	KeyCode string `json:"key_code"`
-}
-
-type ConfigRuleFrom struct {
-	KeyCode string `json:"key_code,omitempty"`
-}
-
 func (m ConfigRuleManipulator) serialize() (JSONRuleManipulator, error) {
-	serializedFrom, err := m.fromSerialize()
+	serializerFrom := serializer.ConfigRuleManipulatorFrom{
+		From:         m.From,
+		FromOptional: m.FromOptional,
+	}
+
+	serializedFrom, err := serializerFrom.Serialize()
 	if err != nil {
 		return JSONRuleManipulator{}, err
 	}
@@ -53,53 +57,6 @@ func (m ConfigRuleManipulator) serialize() (JSONRuleManipulator, error) {
 		To:   m.toSerialize(),
 		Type: "basic",
 	}, nil
-}
-
-func (m ConfigRuleManipulator) fromSerialize() (map[string]interface{}, error) {
-	from := make(map[string]interface{})
-
-	hasModifierKey := false
-	for _, value := range m.From {
-		if util.IsModifierKey(value) {
-			hasModifierKey = true
-			break
-		}
-	}
-
-	if hasModifierKey {
-		from["modifiers"] = map[string]interface{}{
-			"mandatory": []interface{}{},
-		}
-	} else {
-		delete(from, "modifiers")
-	}
-
-	for _, value := range m.From {
-		if util.IsModifierKey(value) {
-			from["modifiers"].(map[string]interface{})["mandatory"] = append(
-				from["modifiers"].(map[string]interface{})["mandatory"].([]interface{}),
-				value,
-			)
-		} else {
-			if _, exists := from["key_code"]; exists {
-				return nil, errors.New("multiple key_code values are not allowed")
-			}
-
-			from["key_code"] = value
-		}
-	}
-
-	if m.FromOptional != nil {
-		from["optional"] = []string{}
-	}
-
-	for _, value := range m.FromOptional {
-		if util.IsModifierKey(value) || value == "any" {
-			from["optional"] = append(from["optional"].([]string), value)
-		}
-	}
-
-	return from, nil
 }
 
 func (m ConfigRuleManipulator) toSerialize() []KeyCodeStruct {
