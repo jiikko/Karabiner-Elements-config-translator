@@ -6,12 +6,12 @@ import (
 	"github.com/jiikko/Karabiner-Elements-config-yaml/internal/util"
 )
 
-type ConfigRuleManipulatorFrom struct {
+type ManipulatorFrom struct {
 	From         []string
 	FromOptional []string
 }
 
-func (s ConfigRuleManipulatorFrom) Transform() (map[string]interface{}, error) {
+func (s ManipulatorFrom) Transform() (map[string]interface{}, error) {
 	from := make(map[string]interface{})
 
 	hasModifierKey := false

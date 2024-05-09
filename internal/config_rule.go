@@ -42,7 +42,7 @@ func (r ConfigRule) Transform() (JSONRule, error) {
 }
 
 func (m ConfigRuleManipulator) Transform() (JSONRuleManipulator, error) {
-	fromTransformer := transformer.ConfigRuleManipulatorFrom{
+	fromTransformer := transformer.ManipulatorFrom{
 		From:         m.From,
 		FromOptional: m.FromOptional,
 	}

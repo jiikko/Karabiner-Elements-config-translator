@@ -8,7 +8,7 @@ import (
 )
 
 func TestFromTransoformWithCommand(t *testing.T) {
-	rule := ConfigRuleManipulatorFrom{
+	rule := ManipulatorFrom{
 		From: []string{"command", "a"},
 	}
 	from, _ := rule.Transform()
@@ -26,7 +26,7 @@ func TestFromTransoformWithCommand(t *testing.T) {
 }
 
 func TestFromTransoformWithShift(t *testing.T) {
-	rule := ConfigRuleManipulatorFrom{
+	rule := ManipulatorFrom{
 		From: []string{"shift", "a"},
 	}
 	from, _ := rule.Transform()
@@ -44,7 +44,7 @@ func TestFromTransoformWithShift(t *testing.T) {
 }
 
 func TestFromTransoformWithShiftAndHasOptional(t *testing.T) {
-	rule := ConfigRuleManipulatorFrom{
+	rule := ManipulatorFrom{
 		From:         []string{"shift", "a", "control"},
 		FromOptional: []string{"option", "command"},
 	}
@@ -64,7 +64,7 @@ func TestFromTransoformWithShiftAndHasOptional(t *testing.T) {
 }
 
 func TestFromTransoformWithShiftAndHasAnyOptional(t *testing.T) {
-	rule := ConfigRuleManipulatorFrom{
+	rule := ManipulatorFrom{
 		From:         []string{"shift", "a"},
 		FromOptional: []string{"any"},
 	}
@@ -84,7 +84,7 @@ func TestFromTransoformWithShiftAndHasAnyOptional(t *testing.T) {
 }
 
 func TestFromTransoformOnlyKeyCode(t *testing.T) {
-	rule := ConfigRuleManipulatorFrom{
+	rule := ManipulatorFrom{
 		From: []string{"a"},
 	}
 	from, _ := rule.Transform()
@@ -101,7 +101,7 @@ func TestFromTransoformOnlyKeyCode(t *testing.T) {
 }
 
 func TestFromTransoformWithMultipleKeyCodesError(t *testing.T) {
-	rule := ConfigRuleManipulatorFrom{
+	rule := ManipulatorFrom{
 		From: []string{"a", "b"},
 	}
 	from, err := rule.Transform()
