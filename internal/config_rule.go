@@ -2,7 +2,6 @@ package internal
 
 import (
 	"github.com/jiikko/Karabiner-Elements-config-yaml/internal/transformer"
-	"github.com/jiikko/Karabiner-Elements-config-yaml/internal/util"
 )
 
 type ConfigRuleManipulator struct {
@@ -46,44 +45,21 @@ func (m ConfigRuleManipulator) Transform() (JSONRuleManipulator, error) {
 		From:         m.From,
 		FromOptional: m.FromOptional,
 	}
-
 	from, err := fromTransformer.Transform()
+	if err != nil {
+		return JSONRuleManipulator{}, err
+	}
+	toTransformer := transformer.ManipulatorTo{
+		To: m.To,
+	}
+	to, err := toTransformer.Transform()
 	if err != nil {
 		return JSONRuleManipulator{}, err
 	}
 
 	return JSONRuleManipulator{
 		From: from,
-		To:   m.toTransform(),
+		To:   to,
 		Type: "basic",
 	}, nil
-}
-
-func (m ConfigRuleManipulator) toTransform() []KeyCodeStruct {
-	var to []KeyCodeStruct
-	for _, value := range m.To {
-		switch v := value.(type) {
-		case string:
-			keyCode, err := util.ConvertToKeyCode(v)
-			if err != nil {
-				return nil
-			}
-			to = append(to, KeyCodeStruct{
-				KeyCode: keyCode,
-			})
-		case []interface{}:
-			for _, item := range v {
-				if key, ok := item.(string); ok {
-					keyCode, err := util.ConvertToKeyCode(key)
-					if err != nil {
-						return nil
-					}
-					to = append(to, KeyCodeStruct{
-						KeyCode: keyCode,
-					})
-				}
-			}
-		}
-	}
-	return to
 }

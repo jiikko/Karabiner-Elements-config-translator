@@ -13,9 +13,9 @@ type Config struct {
 }
 
 type JSONRuleManipulator struct {
-	From map[string]interface{} `json:"from"`
-	To   []KeyCodeStruct        `json:"to"`
-	Type string                 `json:"type"`
+	From map[string]interface{}   `json:"from"`
+	To   []map[string]interface{} `json:"to"`
+	Type string                   `json:"type"`
 }
 
 type JSONRule struct {
