@@ -41,7 +41,7 @@ func (c Config) ToJSON(content string) (string, error) {
 		"rules": func() []JSONRule {
 			var outputRules []JSONRule
 			for _, rule := range c.Rules {
-				jsonRule, e := rule.Serialize()
+				jsonRule, e := rule.Transform()
 
 				if e != nil {
 					err = e

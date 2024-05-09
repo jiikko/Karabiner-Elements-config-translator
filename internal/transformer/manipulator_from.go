@@ -1,4 +1,4 @@
-package serializer
+package transformer
 
 import (
 	"errors"
@@ -11,7 +11,7 @@ type ConfigRuleManipulatorFrom struct {
 	FromOptional []string
 }
 
-func (s ConfigRuleManipulatorFrom) Serialize() (map[string]interface{}, error) {
+func (s ConfigRuleManipulatorFrom) Transform() (map[string]interface{}, error) {
 	from := make(map[string]interface{})
 
 	hasModifierKey := false

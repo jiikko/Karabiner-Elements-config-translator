@@ -1,7 +1,7 @@
 package internal
 
 import (
-	"github.com/jiikko/Karabiner-Elements-config-yaml/internal/serializer"
+	"github.com/jiikko/Karabiner-Elements-config-yaml/internal/transformer"
 	"github.com/jiikko/Karabiner-Elements-config-yaml/internal/util"
 )
 
@@ -24,11 +24,11 @@ type ConfigRuleFrom struct {
 	KeyCode string `json:"key_code,omitempty"`
 }
 
-func (r ConfigRule) Serialize() (JSONRule, error) {
+func (r ConfigRule) Transform() (JSONRule, error) {
 	var jsonManipulators []JSONRuleManipulator
 	for _, manipulator := range r.Manipulators {
 		// p.P("manipulator", manipulator)
-		jsonManipulator, err := manipulator.serialize()
+		jsonManipulator, err := manipulator.Transform()
 		if err != nil {
 			return JSONRule{}, err
 		}
@@ -41,25 +41,25 @@ func (r ConfigRule) Serialize() (JSONRule, error) {
 	}, nil
 }
 
-func (m ConfigRuleManipulator) serialize() (JSONRuleManipulator, error) {
-	serializerFrom := serializer.ConfigRuleManipulatorFrom{
+func (m ConfigRuleManipulator) Transform() (JSONRuleManipulator, error) {
+	fromTransformer := transformer.ConfigRuleManipulatorFrom{
 		From:         m.From,
 		FromOptional: m.FromOptional,
 	}
 
-	serializedFrom, err := serializerFrom.Serialize()
+	from, err := fromTransformer.Transform()
 	if err != nil {
 		return JSONRuleManipulator{}, err
 	}
 
 	return JSONRuleManipulator{
-		From: serializedFrom,
-		To:   m.toSerialize(),
+		From: from,
+		To:   m.toTransform(),
 		Type: "basic",
 	}, nil
 }
 
-func (m ConfigRuleManipulator) toSerialize() []KeyCodeStruct {
+func (m ConfigRuleManipulator) toTransform() []KeyCodeStruct {
 	var to []KeyCodeStruct
 	for _, value := range m.To {
 		switch v := value.(type) {
