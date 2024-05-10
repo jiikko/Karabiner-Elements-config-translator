@@ -15,10 +15,6 @@ type ConfigRule struct {
 	Manipulators []ConfigRuleManipulator `yaml:"manipulators"`
 }
 
-type KeyCodeStruct struct {
-	KeyCode string `json:"key_code"`
-}
-
 type ConfigRuleFrom struct {
 	KeyCode string `json:"key_code,omitempty"`
 }
