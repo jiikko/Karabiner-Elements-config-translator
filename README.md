@@ -111,6 +111,60 @@ output
 }
 ```
 
+### 1-3
+
+to に modifier がある
+
+input
+
+```yaml
+title: my config
+maintainers:
+  - foo
+rules:
+  - description: disable command + m(最小化)
+    manipulators:
+      - from:
+          - m
+        to:
+          - a
+          - - ":"
+            - shift
+```
+
+output
+
+```json
+{
+  "maintainers": ["foo"],
+  "rules": [
+    {
+      "description": "disable command + m(最小化)",
+      "manipulators": [
+        {
+          "from": {
+            "key_code": "m"
+          },
+          "to": [
+            {
+              "key_code": "a"
+            },
+            {
+              "key_code": "semicolon",
+              "modifiers": {
+                "mandatory": ["shift"]
+              }
+            }
+          ],
+          "type": "basic"
+        }
+      ]
+    }
+  ],
+  "title": "my config"
+}
+```
+
 ### 2
 
 - conditions がある
