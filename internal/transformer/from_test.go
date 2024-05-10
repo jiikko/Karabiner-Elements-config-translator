@@ -8,10 +8,10 @@ import (
 )
 
 func TestFromTransoformWithCommand(t *testing.T) {
-	rule := ManipulatorFrom{
+	mf := ManipulatorFrom{
 		From: []string{"command", "a"},
 	}
-	from, _ := rule.Transform()
+	from, _ := mf.Transform()
 	j, _ := json.Marshal(from)
 
 	expected := `{
@@ -26,10 +26,10 @@ func TestFromTransoformWithCommand(t *testing.T) {
 }
 
 func TestFromTransoformWithShift(t *testing.T) {
-	rule := ManipulatorFrom{
+	mf := ManipulatorFrom{
 		From: []string{"shift", "a"},
 	}
-	from, _ := rule.Transform()
+	from, _ := mf.Transform()
 	j, _ := json.Marshal(from)
 
 	expected := `{
@@ -44,11 +44,11 @@ func TestFromTransoformWithShift(t *testing.T) {
 }
 
 func TestFromTransoformWithShiftAndHasOptional(t *testing.T) {
-	rule := ManipulatorFrom{
+	mf := ManipulatorFrom{
 		From:         []string{"shift", "a", "control"},
 		FromOptional: []string{"option", "command"},
 	}
-	from, _ := rule.Transform()
+	from, _ := mf.Transform()
 	j, _ := json.Marshal(from)
 
 	expected := `{
@@ -64,11 +64,11 @@ func TestFromTransoformWithShiftAndHasOptional(t *testing.T) {
 }
 
 func TestFromTransoformWithShiftAndHasAnyOptional(t *testing.T) {
-	rule := ManipulatorFrom{
+	mf := ManipulatorFrom{
 		From:         []string{"shift", "a"},
 		FromOptional: []string{"any"},
 	}
-	from, _ := rule.Transform()
+	from, _ := mf.Transform()
 	j, _ := json.Marshal(from)
 
 	expected := `{
@@ -84,10 +84,10 @@ func TestFromTransoformWithShiftAndHasAnyOptional(t *testing.T) {
 }
 
 func TestFromTransoformOnlyKeyCode(t *testing.T) {
-	rule := ManipulatorFrom{
+	mf := ManipulatorFrom{
 		From: []string{"a"},
 	}
-	from, _ := rule.Transform()
+	from, _ := mf.Transform()
 	j, _ := json.Marshal(from)
 
 	expected := `{
@@ -101,10 +101,10 @@ func TestFromTransoformOnlyKeyCode(t *testing.T) {
 }
 
 func TestFromTransoformWithMultipleKeyCodesError(t *testing.T) {
-	rule := ManipulatorFrom{
+	mf := ManipulatorFrom{
 		From: []string{"a", "b"},
 	}
-	from, err := rule.Transform()
+	from, err := mf.Transform()
 	assert.Nil(t, from)
 	assert.EqualError(t, err, "multiple key_code values are not allowed")
 }
