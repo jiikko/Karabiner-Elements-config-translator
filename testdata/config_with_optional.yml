@@ -11,4 +11,5 @@ rules:
         - shift
         - control
       to:
-        - none
+        - - "'"
+          - shift

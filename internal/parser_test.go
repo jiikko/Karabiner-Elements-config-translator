@@ -60,7 +60,9 @@ func TestParser_ToJSON_WithOptional(t *testing.T) {
 	              "control"
 	            ]
 					},
-					"to": [ { "key_code": "vk_none" } ],
+					"to": [
+						{ "key_code": "quote", "modifiers": { "mandatory": ["shift"] } }
+					],
 					"type": "basic"
 					}
 				]
